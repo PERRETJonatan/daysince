@@ -1,9 +1,12 @@
 {
-  "name": "app",
-  "short_name": "app",
+  "name": "Days Since",
+  "short_name": "Days Since",
+  "description": "Track days since you quit bad habits",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
+  "theme_color": "#1e1e1e",
+  "background_color": "#1e1e1e",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

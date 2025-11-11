@@ -34,4 +34,32 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import '@ionic/angular/css/palettes/dark.system.css';
+@import "@ionic/angular/css/palettes/dark.system.css";
+
+/**
+ * iOS PWA Status Bar Styling
+ * -----------------------------------------------------
+ * Ensures status bar text is white on dark theme
+ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-background-color: #1e1e1e;
+    --ion-toolbar-background: #1e1e1e;
+  }
+
+  /* iOS PWA status bar area */
+  body {
+    background-color: #1e1e1e;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --ion-background-color: #ffffff;
+    --ion-toolbar-background: #ffffff;
+  }
+
+  body {
+    background-color: #ffffff;
+  }
+}
