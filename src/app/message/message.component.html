@@ -1,5 +1,10 @@
 @if (event) {
-<ion-item [routerLink]="'/message/' + event.id" [detail]="false">
+<ion-item
+  [routerLink]="'/message/' + event.id"
+  routerDirection="forward"
+  [detail]="false"
+  button="true"
+>
   <ion-label class="ion-text-wrap">
     <h2>
       {{ event.name }}
