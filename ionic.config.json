@@ -1,0 +1,7 @@
+{
+  "name": "daysince",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
