@@ -1,25 +1,54 @@
-
-import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Platform, IonItem, IonLabel, IonNote, IonIcon } from '@ionic/angular/standalone';
+import {
+  Platform,
+  IonItem,
+  IonLabel,
+  IonIcon,
+  IonBadge,
+} from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { chevronForward } from 'ionicons/icons';
-import { Message } from '../services/data.service';
+import { chevronForward, calendarOutline } from 'ionicons/icons';
+import { DaysSinceEvent } from '../services/data.service';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, IonItem, IonLabel, IonNote, IonIcon],
+  imports: [RouterLink, IonItem, IonLabel, IonIcon, IonBadge],
 })
 export class MessageComponent {
   private platform = inject(Platform);
-  @Input() message?: Message;
+  @Input() event?: DaysSinceEvent;
+  @Input() daysSince?: number;
+
   isIos() {
-    return this.platform.is('ios')
+    return this.platform.is('ios');
   }
+
   constructor() {
-    addIcons({ chevronForward });
+    addIcons({ chevronForward, calendarOutline });
+  }
+
+  formatDate(date: Date): string {
+    return (
+      date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+      }) +
+      ' at ' +
+      date.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      })
+    );
   }
 }

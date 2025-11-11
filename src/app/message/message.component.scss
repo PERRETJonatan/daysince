@@ -1,34 +1,56 @@
 ion-item {
   --padding-start: 0;
   --inner-padding-end: 0;
+  margin-bottom: 8px;
 }
 
 ion-label {
   margin-top: 12px;
   margin-bottom: 12px;
+  padding-left: 16px;
 }
 
 ion-item h2 {
   font-weight: 600;
-  margin: 0;
-  
-  /**
-   * With larger font scales
-   * the date/time should wrap to the next
-   * line. However, there should be
-   * space between the name and the date/time
-   * if they can appear on the same line.
-   */
+  margin: 0 0 8px 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  font-size: 1.1rem;
 }
 
-ion-item p {
+.days-counter {
+  margin: 12px 0;
+}
+
+.days-badge {
+  font-size: 1.5rem;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.event-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ion-color-medium);
+  font-size: 0.875rem;
+  margin: 8px 0;
+
+  ion-icon {
+    color: var(--ion-color-medium);
+  }
+}
+
+.description {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   width: 95%;
+  color: var(--ion-color-medium-shade);
+  font-size: 0.875rem;
+  margin-top: 4px;
 }
 
 ion-item .date {
@@ -38,32 +60,4 @@ ion-item .date {
 
 ion-item ion-icon {
   color: #c9c9ca;
-}
-
-ion-item ion-note {
-  font-size: 0.9375rem;
-  margin-right: 8px;
-  font-weight: normal;
-}
-
-ion-item ion-note.md {
-  margin-right: 14px;
-}
-
-.dot {
-  display: block;
-  height: 12px;
-  width: 12px;
-  border-radius: 50%;
-  align-self: start;
-  margin: 16px 10px 16px 16px;
-}
-
-.dot-unread {
-  background: var(--ion-color-primary);
-}
-
-ion-footer ion-title {
-  font-size: 11px;
-  font-weight: normal;
 }

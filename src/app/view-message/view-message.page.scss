@@ -1,50 +1,132 @@
-ion-item {
-  --inner-padding-end: 0;
-  --background: transparent;
+.event-header {
+  text-align: center;
+  padding: 20px 0;
+
+  .streak-label {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+  }
+
+  h1 {
+    margin: 0 0 8px 0;
+    font-weight: bold;
+    font-size: 2rem;
+  }
+
+  .description {
+    color: var(--ion-color-medium);
+    line-height: 1.4;
+    margin: 8px 0 0 0;
+    font-style: italic;
+  }
 }
 
-ion-label {
-  margin-top: 12px;
-  margin-bottom: 12px;
+.time-card {
+  margin: 20px 0;
+
+  ion-card-header {
+    padding-bottom: 0;
+  }
+
+  .time-display {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    line-height: 1.2;
+
+    .unit {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: normal;
+      margin-top: 8px;
+    }
+  }
+
+  .time-breakdown {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px 0 8px;
+
+    .time-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .time-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+      }
+
+      .time-label {
+        font-size: 0.875rem;
+        opacity: 0.8;
+        margin-top: 4px;
+      }
+    }
+  }
 }
 
-ion-item h2 {
-  font-weight: 600;
+.motivation-card {
+  margin: 20px 0;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--ion-color-success-rgb), 0.1),
+    rgba(var(--ion-color-primary-rgb), 0.1)
+  );
+  border: 2px solid var(--ion-color-success);
 
-  /**
-   * With larger font scales
-   * the date/time should wrap to the next
-   * line. However, there should be
-   * space between the name and the date/time
-   * if they can appear on the same line.
-   */
+  .motivation-message {
+    text-align: center;
+    padding: 8px 0;
+
+    h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--ion-color-success);
+      font-weight: 600;
+    }
+  }
+}
+
+.info-row {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 12px 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--ion-color-light);
+  }
+
+  ion-icon {
+    font-size: 24px;
+    color: var(--ion-color-medium);
+    margin-top: 4px;
+  }
+
+  .info-label {
+    font-size: 0.875rem;
+    color: var(--ion-color-medium);
+    margin-bottom: 4px;
+  }
+
+  .info-value {
+    font-size: 1rem;
+    font-weight: 500;
+  }
 }
 
-ion-item .date {
-  align-items: center;
-  display: flex;
-}
+.action-buttons {
+  margin-top: 24px;
+  margin-bottom: 24px;
 
-ion-item ion-icon {
-  font-size: 42px;
-  margin-right: 8px;
-}
-
-ion-item ion-note {
-  font-size: 0.9375rem;
-  margin-right: 12px;
-  font-weight: normal;
-}
-
-h1 {
-  margin: 0;
-  font-weight: bold;
-  font-size: 1.4rem;
-}
-
-p {
-  line-height: 1.4;
+  ion-button {
+    --border-radius: 12px;
+    font-weight: 600;
+    text-transform: none;
+    font-size: 1rem;
+  }
 }

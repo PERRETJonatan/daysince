@@ -6,38 +6,90 @@
         defaultHref="/"
       ></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="deleteEvent()" color="danger">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-@if (message) {
-  <ion-content [fullscreen]="true">
-    <ion-item>
-      <ion-icon
-        aria-hidden="true"
-        name="person-circle"
-        color="primary"
-      ></ion-icon>
-      <ion-label class="ion-text-wrap">
-        <h2>
-          {{ message.fromName }}
-          <span class="date">
-            <ion-note>{{ message.date }}</ion-note>
-          </span>
-        </h2>
-        <h3>To: <ion-note>Me</ion-note></h3>
-      </ion-label>
-    </ion-item>
-    <div class="ion-padding">
-      <h1>{{ message.subject }}</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-        est laborum.
-      </p>
-    </div>
-  </ion-content>
+@if (event) {
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="event-header">
+    <p class="streak-label">Days clean from</p>
+    <h1>{{ event.name }}</h1>
+    @if (event.description) {
+    <p class="description">{{ event.description }}</p>
+    }
+  </div>
+
+  <ion-card [color]="event.color || 'primary'" class="time-card">
+    <ion-card-header>
+      <ion-card-title class="time-display">
+        {{ timeDetails.days }}
+        <span class="unit"
+          >{{ timeDetails.days === 1 ? 'day' : 'days' }} strong</span
+        >
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="time-breakdown">
+        <div class="time-item">
+          <span class="time-value">{{ timeDetails.hours }}</span>
+          <span class="time-label">hours</span>
+        </div>
+        <div class="time-item">
+          <span class="time-value">{{ timeDetails.minutes }}</span>
+          <span class="time-label">minutes</span>
+        </div>
+        <div class="time-item">
+          <span class="time-value">{{ timeDetails.seconds }}</span>
+          <span class="time-label">seconds</span>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="motivation-card">
+    <ion-card-content>
+      <div class="motivation-message">
+        @if (timeDetails.days >= 365) {
+        <h3>🏆 Over a year! Incredible achievement!</h3>
+        } @else if (timeDetails.days >= 180) {
+        <h3>🌟 Half a year! You're unstoppable!</h3>
+        } @else if (timeDetails.days >= 90) {
+        <h3>💪 90 days! That's a major milestone!</h3>
+        } @else if (timeDetails.days >= 30) {
+        <h3>🎯 One month! Keep going strong!</h3>
+        } @else if (timeDetails.days >= 7) {
+        <h3>✨ One week down! You're doing great!</h3>
+        } @else if (timeDetails.days >= 1) {
+        <h3>🚀 Every day counts! Stay strong!</h3>
+        } @else {
+        <h3>💚 Starting fresh! You've got this!</h3>
+        }
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <div class="info-row">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <div>
+          <div class="info-label">Quit Date & Time</div>
+          <div class="info-value">{{ formatDate(event.startDate) }}</div>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="action-buttons">
+    <ion-button expand="block" color="warning" (click)="resetEvent()">
+      <ion-icon slot="start" name="refresh-outline"></ion-icon>
+      Reset Tracker
+    </ion-button>
+  </div>
+</ion-content>
 }

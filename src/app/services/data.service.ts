@@ -1,83 +1,97 @@
 import { Injectable } from '@angular/core';
 
-export interface Message {
-  fromName: string;
-  subject: string;
-  date: string;
+export interface DaysSinceEvent {
   id: number;
-  read: boolean;
+  name: string;
+  startDate: Date;
+  description?: string;
+  color?: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataService {
-  public messages: Message[] = [
-    {
-      fromName: 'Matt Chorsey',
-      subject: 'New event: Trip to Vegas',
-      date: '9:32 AM',
-      id: 0,
-      read: false
-    },
-    {
-      fromName: 'Lauren Ruthford',
-      subject: 'Long time no chat',
-      date: '6:12 AM',
-      id: 1,
-      read: false
-    },
-    {
-      fromName: 'Jordan Firth',
-      subject: 'Report Results',
-      date: '4:55 AM',
-      id: 2,
-      read: false
-    },
-    {
-      fromName: 'Bill Thomas',
-      subject: 'The situation',
-      date: 'Yesterday',
-      id: 3,
-      read: false
-    },
-    {
-      fromName: 'Joanne Pollan',
-      subject: 'Updated invitation: Swim lessons',
-      date: 'Yesterday',
-      id: 4,
-      read: false
-    },
-    {
-      fromName: 'Andrea Cornerston',
-      subject: 'Last minute ask',
-      date: 'Yesterday',
-      id: 5,
-      read: false
-    },
-    {
-      fromName: 'Moe Chamont',
-      subject: 'Family Calendar - Version 1',
-      date: 'Last Week',
-      id: 6,
-      read: false
-    },
-    {
-      fromName: 'Kelly Richardson',
-      subject: 'Placeholder Headhots',
-      date: 'Last Week',
-      id: 7,
-      read: false
-    }
-  ];
+  private storageKey = 'daysince-events';
+  public events: DaysSinceEvent[] = [];
 
-  constructor() { }
-
-  public getMessages(): Message[] {
-    return this.messages;
+  constructor() {
+    this.loadEvents();
   }
 
-  public getMessageById(id: number): Message {
-    return this.messages[id];
+  private loadEvents(): void {
+    const stored = localStorage.getItem(this.storageKey);
+    if (stored) {
+      this.events = JSON.parse(stored).map((e: any) => ({
+        ...e,
+        startDate: new Date(e.startDate),
+      }));
+    } else {
+      // Initialize with sample habit-tracking events
+      this.events = [];
+      this.saveEvents();
+    }
+  }
+
+  private saveEvents(): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(this.events));
+  }
+
+  public getEvents(): DaysSinceEvent[] {
+    return this.events.sort(
+      (a, b) => b.startDate.getTime() - a.startDate.getTime()
+    );
+  }
+
+  public getEventById(id: number): DaysSinceEvent | undefined {
+    return this.events.find((e) => e.id === id);
+  }
+
+  public addEvent(event: Omit<DaysSinceEvent, 'id'>): void {
+    const newEvent = {
+      ...event,
+      id:
+        this.events.length > 0
+          ? Math.max(...this.events.map((e) => e.id)) + 1
+          : 1,
+    };
+    this.events.push(newEvent);
+    this.saveEvents();
+  }
+
+  public updateEvent(id: number, updates: Partial<DaysSinceEvent>): void {
+    const index = this.events.findIndex((e) => e.id === id);
+    if (index !== -1) {
+      this.events[index] = { ...this.events[index], ...updates };
+      this.saveEvents();
+    }
+  }
+
+  public deleteEvent(id: number): void {
+    this.events = this.events.filter((e) => e.id !== id);
+    this.saveEvents();
+  }
+
+  public calculateDaysSince(startDate: Date): number {
+    const now = new Date();
+    const diff = now.getTime() - startDate.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  }
+
+  public calculateDetailedTime(startDate: Date): {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+  } {
+    const now = new Date();
+    const diff = now.getTime() - startDate.getTime();
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    return { days, hours, minutes, seconds };
   }
 }

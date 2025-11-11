@@ -1,8 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Inbox
-    </ion-title>
+    <ion-title> Days Since </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -13,15 +11,29 @@
 
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">
-        Inbox
-      </ion-title>
+      <ion-title size="large"> Days Since </ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-list>
-    @for (message of getMessages(); track message) {
-      <app-message [message]="message"></app-message>
+    @for (event of getEvents(); track event.id) {
+    <app-message
+      [event]="event"
+      [daysSince]="getDaysSince(event.startDate)"
+    ></app-message>
+    } @empty {
+    <div class="empty-state">
+      <ion-icon name="calendar-outline"></ion-icon>
+      <h2>Start Tracking Your Progress</h2>
+      <p>Track days since you quit smoking, drinking, or any other habit</p>
+      <p class="cta">Tap the + button to begin</p>
+    </div>
     }
   </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="addNewEvent()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
