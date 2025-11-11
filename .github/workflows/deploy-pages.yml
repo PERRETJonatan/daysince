@@ -34,12 +34,35 @@ jobs:
       - name: Build
         run: npm run build -- --configuration=production --base-href=/daysince/
 
+      - name: Verify build output
+        run: |
+          echo "=== Root directory ==="
+          ls -la
+          echo ""
+          echo "=== www directory ==="
+          ls -la www/ || echo "www directory not found!"
+          echo ""
+          echo "=== www contents ==="
+          find www -type f | head -20 || echo "No files in www!"
+
       - name: Add SPA fallback and .nojekyll
         run: |
-          cp www/index.html www/404.html
-          touch www/.nojekyll
-          echo "Build contents:"
-          ls -la www/
+          # Check if files are in www or www/browser
+          if [ -f "www/browser/index.html" ]; then
+            echo "Files are in www/browser/"
+            DEPLOY_PATH="www/browser"
+            cp www/browser/index.html www/browser/404.html
+            touch www/browser/.nojekyll
+          elif [ -f "www/index.html" ]; then
+            echo "Files are in www/"
+            DEPLOY_PATH="www"
+            cp www/index.html www/404.html
+            touch www/.nojekyll
+          else
+            echo "ERROR: index.html not found!"
+            exit 1
+          fi
+          echo "DEPLOY_PATH=$DEPLOY_PATH" >> $GITHUB_ENV
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -47,7 +70,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./www"
+          path: ${{ env.DEPLOY_PATH }}
 
   deploy:
     environment:
