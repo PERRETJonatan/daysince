@@ -34,6 +34,13 @@ jobs:
       - name: Build
         run: npm run build -- --configuration=production --base-href=/daysince/
 
+      - name: Add SPA fallback and .nojekyll
+        run: |
+          cp www/index.html www/404.html
+          touch www/.nojekyll
+          echo "Build contents:"
+          ls -la www/
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
